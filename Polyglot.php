@@ -212,11 +212,23 @@ function wfPolyglotGetLanguages( $title ) {
 	$n = $title->getDBkey();
 	$ns = $title->getNamespace();
 
+	$titles = array();
+	$batch = new LinkBatch();
+
+	foreach ( $wgPolyglotLanguages as $lang ) {
+		$obj = Title::makeTitle( $ns, $n . '/' . $lang );
+		$batch->addObj( $obj );
+		$titles[] = array( $obj, $lang );
+	}
+
+	$batch->execute();
 	$links = array();
 
-	foreach ($wgPolyglotLanguages as $lang) {
-		$t = Title::makeTitle($ns, $n . '/' . $lang);
-		if ($t->exists()) $links[$lang] = $t->getFullText();
+	foreach( $titles as $parts ) {
+		list( $t, $lang ) = $parts;
+		if ( $t->exists() ) {
+			$links[$lang] = $t->getFullText();
+		}
 	}
 
 	return $links;
