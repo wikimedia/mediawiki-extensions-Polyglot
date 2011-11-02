@@ -130,7 +130,7 @@ function wfPolyglotArticleFromTitle( &$title, &$article ) {
 		$a = new Article($t);
 		$a->loadPageData();
 
-		if ($a->mIsRedirect) {
+		if ($a->isRedirect()) {
 			$rt = $a->followRedirect();
 			if ($rt && $rt->exists()) {
 				//TODO: make "redirected from" show $source, not $title, if we followed a redirect internally.
