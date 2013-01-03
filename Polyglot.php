@@ -22,13 +22,15 @@ if( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
 }
 
-$wgExtensionCredits['other'][] = array( 
+$wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
-	'name' => 'Polyglot', 
-	'author' => 'Daniel Kinzler', 
-	'url' => 'http://mediawiki.org/wiki/Extension:Polyglot',
-	'description' => 'Support for content in multiple languages in a single MediaWiki',
+	'name' => 'Polyglot',
+	'author' => 'Daniel Kinzler',
+	'url' => 'https://mediawiki.org/wiki/Extension:Polyglot',
+	'descriptionmsg' => 'polyglot-desc',
 );
+
+$wgExtensionMessagesFiles['Polyglot'] = __DIR__ . '/Polyglot.i18n.php';
 
 /**
 * Set languages with polyglot support; applies to negotiation of interface language, 
