@@ -33,34 +33,41 @@ $wgExtensionCredits['other'][] = array(
 $wgExtensionMessagesFiles['Polyglot'] = __DIR__ . '/Polyglot.i18n.php';
 
 /**
-* Set languages with polyglot support; applies to negotiation of interface language, 
-* and to lookups for loclaized pages.
-* Set this to a small set of languages that are likely to be used on your site to
-* improve performance. Leave NULL to allow all languages known to MediaWiki via
-* languages/Names.php.
-* If the LanguageSelector extension is installed, $wgLanguageSelectorLanguages is used
-* as a fallback.
-*/
+ * Set languages with polyglot support; applies to negotiation of interface language,
+ * and to lookups for loclaized pages.
+ * Set this to a small set of languages that are likely to be used on your site to
+ * improve performance. Leave NULL to allow all languages known to MediaWiki via
+ * languages/Names.php.
+ * If the LanguageSelector extension is installed, $wgLanguageSelectorLanguages is used
+ * as a fallback.
+ */
 $wgPolyglotLanguages = null;
 
 /**
-* Namespaces to excempt from polyglot support, with respect to automatic redirects.
-* All "magic" namespaces are excempt per default. There should be no reason to change this.
-* Note: internationalizing templates is best done on-page, using the MultiLang extension.
-*/
-$wfPolyglotExcemptNamespaces = array(NS_CATEGORY, NS_TEMPLATE, NS_IMAGE, NS_MEDIA, NS_SPECIAL, NS_MEDIAWIKI);
+ * Namespaces to excempt from polyglot support, with respect to automatic redirects.
+ * All "magic" namespaces are excempt per default. There should be no reason to change this.
+ * Note: internationalizing templates is best done on-page, using the MultiLang extension.
+ */
+$wfPolyglotExemptNamespaces = array(
+	NS_CATEGORY,
+	NS_TEMPLATE,
+	NS_IMAGE,
+	NS_MEDIA,
+	NS_SPECIAL,
+	NS_MEDIAWIKI
+);
 
 /**
-* Wether talk pages should be excempt from automatic polyglot support, with respect to
-* automatic redirects. True per default.
-*/
+ * Wether talk pages should be excempt from automatic polyglot support, with respect to
+ * automatic redirects. True per default.
+ */
 $wfPolyglotExcemptTalkPages = true;
 
 /**
-* Set to true if polyglot should resolve redirects that are encountered when applying an
-* automatic redirect to a localized page. This requires additional database access every
-* time a locaized page is accessed.
-*/
+ * Set to true if polyglot should resolve redirects that are encountered when applying an
+ * automatic redirect to a localized page. This requires additional database access every
+ * time a locaized page is accessed.
+ */
 $wfPolyglotFollowRedirects = false;
 
 ///// hook it up /////////////////////////////////////////////////////
@@ -77,19 +84,27 @@ function wfPolyglotExtension() {
 	if ( $wgPolyglotLanguages === null ) {
 		$wgPolyglotLanguages = @$GLOBALS['wgLanguageSelectorLanguages'];
 	}
-	
+
 	if ( $wgPolyglotLanguages === null ) {
 		$wgPolyglotLanguages = array_keys( Language::getLanguageNames() );
 	}
 }
 
+/**
+ * @param $title Title
+ * @param $request
+ * @param $ignoreRedirect bool
+ * @param $target
+ * @param $article
+ * @return bool
+ */
 function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreRedirect, &$target, &$article ) {
-	global $wfPolyglotExcemptNamespaces, $wfPolyglotExcemptTalkPages, $wfPolyglotFollowRedirects;
+	global $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages, $wfPolyglotFollowRedirects;
 	global $wgLang, $wgContLang;
 
 	$ns = $title->getNamespace();
 
-	if ( $ns < 0 || in_array( $ns, $wfPolyglotExcemptNamespaces )
+	if ( $ns < 0 || in_array( $ns, $wfPolyglotExemptNamespaces )
 		|| ( $wfPolyglotExcemptTalkPages && MWNamespace::isTalk( $ns ) ) ) {
 		return true;
 	}
@@ -140,13 +155,23 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 	return true;
 }
 
+/**
+ * @param $linker
+ * @param $target Title
+ * @param $text
+ * @param $customAttribs
+ * @param $query
+ * @param $options
+ * @param $ret
+ * @return bool
+ */
 function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query, &$options, &$ret ) {
-	global $wfPolyglotExcemptNamespaces, $wfPolyglotExcemptTalkPages, $wgContLang;
+	global $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages, $wgContLang;
 
 	$ns = $target->getNamespace();
 
-	if ( $ns < 0 
-		|| in_array( $ns, $wfPolyglotExcemptNamespaces ) 
+	if ( $ns < 0
+		|| in_array( $ns, $wfPolyglotExemptNamespaces )
 		|| ( $wfPolyglotExcemptTalkPages && MWNamespace::isTalk( $ns ) ) ) {
 		return true;
 	}
@@ -180,6 +205,10 @@ function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query
 	return true;
 }
 
+/**
+ * @param $title Title
+ * @return array|null
+ */
 function wfPolyglotGetLanguages( $title ) {
 	global $wgPolyglotLanguages;
 	if (!$wgPolyglotLanguages) return null;
@@ -209,18 +238,25 @@ function wfPolyglotGetLanguages( $title ) {
 	return $links;
 }
 
+/**
+ * @param $parser Parser
+ * @param $text
+ * @return bool
+ */
 function wfPolyglotParserAfterTidy( &$parser, &$text ) {
-	global $wgPolyglotLanguages, $wfPolyglotExcemptNamespaces, $wfPolyglotExcemptTalkPages;
+	global $wgPolyglotLanguages, $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages;
 	global $wgContLang;
 
-	if ( !$wgPolyglotLanguages ) return true;
-	if ( !$parser->mOptions->getInterwikiMagic() ) return true;
+	if ( !$wgPolyglotLanguages ) {
+		return true;
+	}
+	if ( !$parser->mOptions->getInterwikiMagic() ) {
+		return true;
+	}
 
 	$n = $parser->mTitle->getDBkey();
 	$ns = $parser->mTitle->getNamespace();
 	$contln = $wgContLang->getCode();
-
-	$userlinks = $parser->mOutput->getLanguageLinks();
 
 	$links = array();
 	$pagelang = null;
@@ -228,7 +264,7 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	//TODO: if we followed a redirect, analyze the redirect's title too.
 	//      at least if wgPolyglotFollowRedirects is true
 
-	if ( $ns >= 0 && !in_array($ns,  $wfPolyglotExcemptNamespaces)
+	if ( $ns >= 0 && !in_array($ns,  $wfPolyglotExemptNamespaces)
 		&& (!$wfPolyglotExcemptTalkPages || !MWNamespace::isTalk($ns)) ) {
 		$ll = wfPolyglotGetLanguages($parser->mTitle);
 		if ($ll) $links = array_merge($links, $ll);
@@ -246,10 +282,11 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 		}
 	}
 
-	//TODO: would be nice to handle "normal" interwiki-links here. 
+	//TODO: would be nice to handle "normal" interwiki-links here.
 	//      but we would have to hack into Title::getInterwikiLink, otherwise
-	//      the links are not recognized. 
+	//      the links are not recognized.
 	/*
+	$userlinks = $parser->mOutput->getLanguageLinks();
 	foreach ($userlinks as $link) {
 		$m = explode(':', $link, 2);
 		if (sizeof($m)<2) continue;
@@ -258,12 +295,12 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	}
 	*/
 
-	if ($pagelang) unset($links[$pagelang]);
-
-	//print_r($links);
+	if ( $pagelang ) {
+		unset($links[$pagelang]);
+	}
 
 	$fakelinks = array();
-	foreach ($links as $lang => $t) {
+	foreach ( $links as $lang => $t ) {
 		$fakelinks[] = $lang . ':' . $t;
 	}
 
@@ -271,16 +308,20 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	return true;
 }
 
-function wfPolyglotSkinTemplateOutputPageBeforeExec($skin, $tpl) {
+/**
+ * @param $skin
+ * @param $tpl QuickTemplate
+ * @return bool
+ */
+function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 	global $wgOut, $wgContLang;
 
 	$language_urls = array();
 	foreach( $wgOut->getLanguageLinks() as $l ) {
-		if (preg_match('!^(\w[-\w]*\w):(.+)$!', $l, $m)) {
+		if ( preg_match( '!^(\w[-\w]*\w):(.+)$!', $l, $m ) ) {
 			$lang = $m[1];
 			$l = $m[2];
-		}
-		else {
+		} else {
 			continue; //NOTE: shouldn't happen
 		}
 
@@ -292,12 +333,11 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec($skin, $tpl) {
 		);
 	}
 
-	if(count($language_urls)) {
-		$tpl->setRef( 'language_urls', $language_urls);
+	if( count( $language_urls ) ) {
+		$tpl->setRef( 'language_urls', $language_urls );
 	} else {
-		$tpl->set('language_urls', false);
+		$tpl->set( 'language_urls', false );
 	}
 
 	return true;
 }
-
