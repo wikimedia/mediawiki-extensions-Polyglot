@@ -12,7 +12,7 @@ $messages = array();
  */
 $messages['en'] = array(
 	'polyglot-desc' => 'Adds support for content in multiple languages',
-;
+);
 
 /** Message documentation (Message documentation)
  * @author Raimond Spekking
