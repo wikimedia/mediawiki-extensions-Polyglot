@@ -16,9 +16,10 @@ $messages['en'] = array(
 
 /** Message documentation (Message documentation)
  * @author Raimond Spekking
+ * @author Shirayuki
  */
 $messages['qqq'] = array(
-	'polyglot-desc' => '{{desc}}',
+	'polyglot-desc' => '{{desc|name=Polyglot|url=http://www.mediawiki.org/wiki/Extension:Polyglot}}',
 );
 
 /** German (Deutsch)
@@ -35,11 +36,25 @@ $messages['gl'] = array(
 	'polyglot-desc' => 'Engade soporte para contidos en varias linguas',
 );
 
+/** Japanese (日本語)
+ * @author Shirayuki
+ */
+$messages['ja'] = array(
+	'polyglot-desc' => '複数の言語のコンテンツに対応する機能を追加する',
+);
+
 /** Korean (한국어)
  * @author 아라
  */
 $messages['ko'] = array(
 	'polyglot-desc' => '여러 언어로 내용에 대한 지원을 추가합니다',
+);
+
+/** Macedonian (македонски)
+ * @author Bjankuloski06
+ */
+$messages['mk'] = array(
+	'polyglot-desc' => 'Додава поддршка за содржини на повеќе јазици',
 );
 
 /** Ukrainian (українська)
