@@ -57,9 +57,23 @@ $messages['mk'] = array(
 	'polyglot-desc' => 'Додава поддршка за содржини на повеќе јазици',
 );
 
+/** Dutch (Nederlands)
+ * @author Siebrand
+ */
+$messages['nl'] = array(
+	'polyglot-desc' => 'Voegt ondersteuning toe voor inhoud in meerdere talen',
+);
+
 /** Ukrainian (українська)
  * @author Ата
  */
 $messages['uk'] = array(
 	'polyglot-desc' => 'Додає підтримку вмісту декількома мовами',
+);
+
+/** Simplified Chinese (中文（简体）‎)
+ * @author Yfdyh000
+ */
+$messages['zh-hans'] = array(
+	'polyglot-desc' => '增加对多语言内容的支持',
 );
