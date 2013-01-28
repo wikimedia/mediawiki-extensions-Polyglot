@@ -22,6 +22,13 @@ $messages['qqq'] = array(
 	'polyglot-desc' => '{{desc|name=Polyglot|url=http://www.mediawiki.org/wiki/Extension:Polyglot}}',
 );
 
+/** Asturian (asturianu)
+ * @author Xuacu
+ */
+$messages['ast'] = array(
+	'polyglot-desc' => 'Amiesta sofitu pa conteníos en múltiples llingües',
+);
+
 /** German (Deutsch)
  * @author Metalhead64
  */
@@ -34,6 +41,20 @@ $messages['de'] = array(
  */
 $messages['gl'] = array(
 	'polyglot-desc' => 'Engade soporte para contidos en varias linguas',
+);
+
+/** Hebrew (עברית)
+ * @author Amire80
+ */
+$messages['he'] = array(
+	'polyglot-desc' => 'הוספת תמיכה בתוכן בשפות מרובות',
+);
+
+/** Italian (italiano)
+ * @author Beta16
+ */
+$messages['it'] = array(
+	'polyglot-desc' => 'Aggiunge il supporto per i contenuti in più lingue',
 );
 
 /** Japanese (日本語)
