@@ -36,6 +36,13 @@ $messages['de'] = array(
 	'polyglot-desc' => 'Ergänzt den Support für Inhalt in mehreren Sprachen',
 );
 
+/** Spanish (español)
+ * @author Fitoschido
+ */
+$messages['es'] = array(
+	'polyglot-desc' => 'Añade compatibilidad para contenido en múltiples idiomas',
+);
+
 /** French (français)
  * @author Gomoko
  */
