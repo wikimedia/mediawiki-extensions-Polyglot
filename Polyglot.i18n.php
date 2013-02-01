@@ -99,6 +99,13 @@ $messages['nl'] = array(
 	'polyglot-desc' => 'Voegt ondersteuning toe voor inhoud in meerdere talen',
 );
 
+/** tarandíne (tarandíne)
+ * @author Joetaras
+ */
+$messages['roa-tara'] = array(
+	'polyglot-desc' => "Aggiunge supporte pe condenute jndr'à lènghe multiple",
+);
+
 /** Ukrainian (українська)
  * @author Ата
  */
