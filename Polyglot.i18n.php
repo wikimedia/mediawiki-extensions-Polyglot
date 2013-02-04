@@ -85,6 +85,13 @@ $messages['ko'] = array(
 	'polyglot-desc' => '여러 언어로 내용에 대한 지원을 추가합니다',
 );
 
+/** Luxembourgish (Lëtzebuergesch)
+ * @author Robby
+ */
+$messages['lb'] = array(
+	'polyglot-desc' => 'Setzt de Support fir Inhalt a méi Sproochen derbäi',
+);
+
 /** Macedonian (македонски)
  * @author Bjankuloski06
  */
