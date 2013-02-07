@@ -64,6 +64,13 @@ $messages['he'] = array(
 	'polyglot-desc' => 'הוספת תמיכה בתוכן בשפות מרובות',
 );
 
+/** Upper Sorbian (hornjoserbsce)
+ * @author Michawiki
+ */
+$messages['hsb'] = array(
+	'polyglot-desc' => 'Přidawa podpěru za wobsah we wjacorych rěčach',
+);
+
 /** Italian (italiano)
  * @author Beta16
  */
