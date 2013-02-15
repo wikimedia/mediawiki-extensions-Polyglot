@@ -106,6 +106,13 @@ $messages['mk'] = array(
 	'polyglot-desc' => 'Додава поддршка за содржини на повеќе јазици',
 );
 
+/** Malay (Bahasa Melayu)
+ * @author Anakmalaysia
+ */
+$messages['ms'] = array(
+	'polyglot-desc' => 'Menambah sokongan untuk kandungan berbilang bahasa',
+);
+
 /** Dutch (Nederlands)
  * @author Siebrand
  */
