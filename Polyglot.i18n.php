@@ -29,6 +29,13 @@ $messages['ast'] = array(
 	'polyglot-desc' => 'Amiesta sofitu pa conteníos en múltiples llingües',
 );
 
+/** Belarusian (Taraškievica orthography) (беларуская (тарашкевіца)‎)
+ * @author Wizardist
+ */
+$messages['be-tarask'] = array(
+	'polyglot-desc' => 'Дадае падтрымку зьместу на некалькіх мовах',
+);
+
 /** German (Deutsch)
  * @author Metalhead64
  */
