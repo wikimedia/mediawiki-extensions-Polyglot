@@ -45,9 +45,10 @@ $messages['cs'] = array(
 
 /** German (Deutsch)
  * @author Metalhead64
+ * @author Purodha
  */
 $messages['de'] = array(
-	'polyglot-desc' => 'Ergänzt den Support für Inhalt in mehreren Sprachen',
+	'polyglot-desc' => 'Fügt die Unterstützung  für Seiteninhalte in mehreren Sprachen zum Wiki hinzu',
 );
 
 /** Spanish (español)
