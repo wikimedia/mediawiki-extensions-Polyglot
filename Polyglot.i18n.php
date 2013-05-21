@@ -107,6 +107,13 @@ $messages['ko'] = array(
 	'polyglot-desc' => '여러 언어로 내용에 대한 지원을 추가합니다',
 );
 
+/** Colognian (Ripoarisch)
+ * @author Purodha
+ */
+$messages['ksh'] = array(
+	'polyglot-desc' => 'Brängk mieh Öngerschtözong för Enhallde en ättlejje Schprooche en et Wiki.',
+);
+
 /** Luxembourgish (Lëtzebuergesch)
  * @author Robby
  */
