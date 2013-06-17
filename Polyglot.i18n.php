@@ -162,3 +162,10 @@ $messages['uk'] = array(
 $messages['zh-hans'] = array(
 	'polyglot-desc' => '增加对多语言内容的支持',
 );
+
+/** Traditional Chinese (中文（繁體）‎)
+ * @author Justincheng12345
+ */
+$messages['zh-hant'] = array(
+	'polyglot-desc' => '增加對多語言內容的支援',
+);
