@@ -142,6 +142,13 @@ $messages['nl'] = array(
 	'polyglot-desc' => 'Voegt ondersteuning toe voor inhoud in meerdere talen',
 );
 
+/** Occitan (occitan)
+ * @author Cedric31
+ */
+$messages['oc'] = array(
+	'polyglot-desc' => 'Apond lo supòrt per de contengut en mantuna lenga',
+);
+
 /** tarandíne (tarandíne)
  * @author Joetaras
  */
