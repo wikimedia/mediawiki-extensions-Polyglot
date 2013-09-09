@@ -149,6 +149,20 @@ $messages['oc'] = array(
 	'polyglot-desc' => 'Apond lo supòrt per de contengut en mantuna lenga',
 );
 
+/** Portuguese (português)
+ * @author Cainamarques
+ */
+$messages['pt'] = array(
+	'polyglot-desc' => 'Adiciona suporte para conteúdo em múltiplos idiomas',
+);
+
+/** Brazilian Portuguese (português do Brasil)
+ * @author Cainamarques
+ */
+$messages['pt-br'] = array(
+	'polyglot-desc' => 'Adiciona suporte para conteúdo em múltiplos idiomas',
+);
+
 /** tarandíne (tarandíne)
  * @author Joetaras
  */
