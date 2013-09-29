@@ -170,6 +170,13 @@ $messages['roa-tara'] = array(
 	'polyglot-desc' => "Aggiunge supporte pe condenute jndr'à lènghe multiple",
 );
 
+/** Russian (русский)
+ * @author Okras
+ */
+$messages['ru'] = array(
+	'polyglot-desc' => 'Добавляет поддержку материалов на нескольких языках',
+);
+
 /** Ukrainian (українська)
  * @author Ата
  */
