@@ -51,6 +51,13 @@ $messages['de'] = array(
 	'polyglot-desc' => 'Fügt die Unterstützung  für Seiteninhalte in mehreren Sprachen zum Wiki hinzu',
 );
 
+/** Lower Sorbian (dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'polyglot-desc' => 'Pśidawa pódpěru za wopśimjeśe w někotarych rěcach',
+);
+
 /** Spanish (español)
  * @author Fitoschido
  */
