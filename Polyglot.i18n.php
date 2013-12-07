@@ -36,7 +36,7 @@ $messages['be-tarask'] = array(
 	'polyglot-desc' => 'Дадае падтрымку зьместу на некалькіх мовах',
 );
 
-/** Czech (česky)
+/** Czech (čeština)
  * @author Reaperman
  */
 $messages['cs'] = array(
