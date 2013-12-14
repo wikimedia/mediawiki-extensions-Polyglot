@@ -123,9 +123,10 @@ $messages['ksh'] = array(
 
 /** Luxembourgish (Lëtzebuergesch)
  * @author Robby
+ * @author Soued031
  */
 $messages['lb'] = array(
-	'polyglot-desc' => 'Setzt de Support fir Inhalt a méi Sproochen derbäi',
+	'polyglot-desc' => 'Setzt de Support fir Inhalt a méi Sproochen dobäi',
 );
 
 /** Macedonian (македонски)
