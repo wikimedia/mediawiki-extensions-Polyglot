@@ -126,7 +126,7 @@ $messages['ksh'] = array(
  * @author Soued031
  */
 $messages['lb'] = array(
-	'polyglot-desc' => 'Setzt de Support fir Inhalt a méi Sproochen dobäi',
+	'polyglot-desc' => 'Setzt de Support fir Inhalt a méi Sproochen derbäi',
 );
 
 /** Macedonian (македонски)
