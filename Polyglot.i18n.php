@@ -65,6 +65,13 @@ $messages['es'] = array(
 	'polyglot-desc' => 'Añade compatibilidad para contenido en múltiples idiomas',
 );
 
+/** Persian (فارسی)
+ * @author Armin1392
+ */
+$messages['fa'] = array(
+	'polyglot-desc' => 'افزودن پشتیبانی برای محتوا در چند زبان',
+);
+
 /** French (français)
  * @author Gomoko
  */
