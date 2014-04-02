@@ -30,6 +30,7 @@ $wgExtensionCredits['other'][] = array(
 	'descriptionmsg' => 'polyglot-desc',
 );
 
+$wgMessagesDirs['Polyglot'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['Polyglot'] = __DIR__ . '/Polyglot.i18n.php';
 
 /**
