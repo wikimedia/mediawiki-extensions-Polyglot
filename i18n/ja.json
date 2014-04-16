@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "Shirayuki"
-        ]
-    },
-    "polyglot-desc": "複数の言語のコンテンツに対応する機能を追加する"
+	"@metadata": {
+		"authors": [
+			"Shirayuki"
+		]
+	},
+	"polyglot-desc": "複数の言語のコンテンツに対応する機能を追加する"
 }

@@ -1,9 +1,9 @@
 {
-    "@metadata": {
-        "authors": [
-            "Raimond Spekking",
-            "Shirayuki"
-        ]
-    },
-    "polyglot-desc": "{{desc|name=Polyglot|url=http://www.mediawiki.org/wiki/Extension:Polyglot}}"
+	"@metadata": {
+		"authors": [
+			"Raimond Spekking",
+			"Shirayuki"
+		]
+	},
+	"polyglot-desc": "{{desc|name=Polyglot|url=http://www.mediawiki.org/wiki/Extension:Polyglot}}"
 }
