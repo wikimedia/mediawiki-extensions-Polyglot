@@ -1,8 +1,8 @@
 {
-    "@metadata": {
-        "authors": [
-            "Daniel Kinzler"
-        ]
-    },
-    "polyglot-desc": "Adds support for content in multiple languages"
+	"@metadata": {
+		"authors": [
+			"Daniel Kinzler"
+		]
+	},
+	"polyglot-desc": "Adds support for content in multiple languages"
 }
