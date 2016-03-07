@@ -88,7 +88,7 @@ function wfPolyglotExtension() {
 	}
 
 	if ( $wgPolyglotLanguages === null ) {
-		$wgPolyglotLanguages = array_keys( Language::getLanguageNames() );
+		$wgPolyglotLanguages = array_keys( Language::fetchLanguageNames() );
 	}
 }
 
@@ -330,7 +330,7 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 		$nt = Title::newFromText( $l );
 		$language_urls[] = array(
 			'href' => $nt->getFullURL(),
-			'text' => $wgContLang->getLanguageName( $lang ),
+			'text' => Language::fetchLanguageName( $lang, $wgContLang->getCode() ),
 			'class' => 'interwiki-' . $lang,
 		);
 	}
