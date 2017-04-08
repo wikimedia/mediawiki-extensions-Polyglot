@@ -53,7 +53,7 @@ $wgPolyglotLanguages = null;
 $wfPolyglotExemptNamespaces = array(
 	NS_CATEGORY,
 	NS_TEMPLATE,
-	NS_IMAGE,
+	NS_FILE,
 	NS_MEDIA,
 	NS_SPECIAL,
 	NS_MEDIAWIKI
