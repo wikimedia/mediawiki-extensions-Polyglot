@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Gomoko"
+			"Gomoko",
+			"Urhixidur"
 		]
 	},
-	"polyglot-desc": "Ajoute le support pour du contenu en plusieurs langues"
+	"polyglot-desc": "Ajoute la prise en charge du contenu en plusieurs langues"
 }
