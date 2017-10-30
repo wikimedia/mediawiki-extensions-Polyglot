@@ -32,7 +32,6 @@ $wgExtensionCredits['other'][] = array(
 );
 
 $wgMessagesDirs['Polyglot'] = __DIR__ . '/i18n';
-$wgExtensionMessagesFiles['Polyglot'] = __DIR__ . '/Polyglot.i18n.php';
 
 /**
  * Set languages with polyglot support; applies to negotiation of interface language,
