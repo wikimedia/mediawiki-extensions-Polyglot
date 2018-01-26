@@ -334,11 +334,7 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 		);
 	}
 
-	if( count( $language_urls ) ) {
-		$tpl->setRef( 'language_urls', $language_urls );
-	} else {
-		$tpl->set( 'language_urls', false );
-	}
+	$tpl->set( 'language_urls', $language_urls ?: false );
 
 	return true;
 }
