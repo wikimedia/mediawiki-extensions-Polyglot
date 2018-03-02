@@ -28,7 +28,7 @@ $wgExtensionCredits['other'][] = array(
 	'author' => 'Daniel Kinzler',
 	'url' => 'https://mediawiki.org/wiki/Extension:Polyglot',
 	'descriptionmsg' => 'polyglot-desc',
-	'license-name' => 'GPL-2.0+',
+	'license-name' => 'GPL-2.0-or-later',
 );
 
 $wgMessagesDirs['Polyglot'] = __DIR__ . '/i18n';
