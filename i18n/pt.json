@@ -1,8 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Cainamarques"
+			"Cainamarques",
+			"Hamilton Abreu"
 		]
 	},
-	"polyglot-desc": "Adiciona suporte para conteúdo em múltiplos idiomas"
+	"polyglot-desc": "Adiciona suporte para conteúdo em várias línguas"
 }
