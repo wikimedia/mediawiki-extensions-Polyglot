@@ -251,12 +251,12 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	if ( !$wgPolyglotLanguages ) {
 		return true;
 	}
-	if ( !$parser->mOptions->getInterwikiMagic() ) {
+	if ( !$parser->getOptions()->getInterwikiMagic() ) {
 		return true;
 	}
 
-	$n = $parser->mTitle->getDBkey();
-	$ns = $parser->mTitle->getNamespace();
+	$n = $parser->getTitle()->getDBkey();
+	$ns = $parser->getTitle()->getNamespace();
 	$contln = $wgContLang->getCode();
 
 	$links = array();
@@ -267,7 +267,7 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 
 	if ( $ns >= 0 && !in_array($ns,  $wfPolyglotExemptNamespaces)
 		&& (!$wfPolyglotExcemptTalkPages || !MWNamespace::isTalk($ns)) ) {
-		$ll = wfPolyglotGetLanguages($parser->mTitle);
+		$ll = wfPolyglotGetLanguages($parser->getTitle());
 		if ($ll) $links = array_merge($links, $ll);
 
 		if (preg_match('!(.+)/(\w[-\w]*\w)$!', $n, $m)) {
@@ -287,7 +287,7 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	//      but we would have to hack into Title::getInterwikiLink, otherwise
 	//      the links are not recognized.
 	/*
-	$userlinks = $parser->mOutput->getLanguageLinks();
+	$userlinks = $parser->getOutput()->getLanguageLinks();
 	foreach ($userlinks as $link) {
 		$m = explode(':', $link, 2);
 		if (sizeof($m)<2) continue;
@@ -305,7 +305,7 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 		$fakelinks[] = $lang . ':' . $t;
 	}
 
-	$parser->mOutput->setLanguageLinks($fakelinks);
+	$parser->getOutput()->setLanguageLinks($fakelinks);
 	return true;
 }
 
