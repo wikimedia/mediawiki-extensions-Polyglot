@@ -82,10 +82,10 @@ $wgHooks['SkinTemplateOutputPageBeforeExec'][] = 'wfPolyglotSkinTemplateOutputPa
 $wgExtensionFunctions[] = "wfPolyglotExtension";
 
 function wfPolyglotExtension() {
-	global $wgPolyglotLanguages;
+	global $wgPolyglotLanguages, $wgLanguageSelectorLanguages;
 
-	if ( $wgPolyglotLanguages === null ) {
-		$wgPolyglotLanguages = @$GLOBALS['wgLanguageSelectorLanguages'];
+	if ( $wgPolyglotLanguages === null && isset( $wgLanguageSelectorLanguages ) ) {
+		$wgPolyglotLanguages = $wgLanguageSelectorLanguages;
 	}
 
 	if ( $wgPolyglotLanguages === null ) {
