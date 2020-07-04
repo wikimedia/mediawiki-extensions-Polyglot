@@ -83,7 +83,9 @@ function wfPolyglotExtension() {
 	global $wgPolyglotLanguages;
 
 	if ( $wgPolyglotLanguages === null ) {
-		$wgPolyglotLanguages = @$GLOBALS['wgLanguageSelectorLanguages'];
+        if (array_key_exists('wgLanguageSelectorLanguages', $GLOBALS)){
+            $wgPolyglotLanguages = @$GLOBALS['wgLanguageSelectorLanguages'];
+        }    
 	}
 
 	if ( $wgPolyglotLanguages === null ) {
