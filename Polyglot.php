@@ -101,7 +101,7 @@ function wfPolyglotExtension() {
  */
 function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreRedirect, &$target, &$article ) {
 	global $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages, $wfPolyglotFollowRedirects;
-	global $wgLang, $wgContLang;
+	global $wgLang;
 
 	$ns = $title->getNamespace();
 
@@ -113,16 +113,17 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 	$dbkey = $title->getDBkey();
 	$force = false;
 
+	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 	//TODO: when user-defined language links start working (see below),
 	//      we need to look at the langlinks table here.
 	if ( !$title->exists() && strlen( $dbkey ) > 1 ) {
-		$escContLang = preg_quote( $wgContLang->getCode(),  '!' );
+		$escContLang = preg_quote( $contentLanguage->getCode(),  '!' );
 		if ( preg_match( '!/$!', $dbkey ) ) {
 			$force = true;
 			$remove = 1;
 		} elseif ( preg_match( "!/{$escContLang}$!", $dbkey ) ) {
 			$force = true;
-			$remove = strlen( $wgContLang->getCode() ) + 1;
+			$remove = strlen( $contentLanguage->getCode() ) + 1;
 		}
 	}
 
@@ -167,7 +168,7 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
  * @return bool
  */
 function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query, &$options, &$ret ) {
-	global $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages, $wgContLang;
+	global $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages;
 
 	$ns = $target->getNamespace();
 
@@ -178,13 +179,14 @@ function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query
 	}
 
 	$dbKey = $target->getDBkey();
+	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 
 	if ( !$target->exists() && strlen( $dbKey ) > 1 ) {
-		$escContLang = preg_quote( $wgContLang->getCode(),  '!' );
+		$escContLang = preg_quote( $contentLanguage->getCode(),  '!' );
 		if ( preg_match( '!/$!', $dbKey ) ) {
 			$remove = 1;
 		} elseif ( preg_match( "!/{$escContLang}$!", $dbKey ) ) {
-			$remove = strlen( $wgContLang->getCode() ) + 1;
+			$remove = strlen( $contentLanguage->getCode() ) + 1;
 		} else {
 			return true;
 		}
@@ -246,7 +248,6 @@ function wfPolyglotGetLanguages( $title ) {
  */
 function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	global $wgPolyglotLanguages, $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages;
-	global $wgContLang;
 
 	if ( !$wgPolyglotLanguages ) {
 		return true;
@@ -257,7 +258,8 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 
 	$n = $parser->getTitle()->getDBkey();
 	$ns = $parser->getTitle()->getNamespace();
-	$contln = $wgContLang->getCode();
+	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+	$contln = $contentLanguage->getCode();
 
 	$links = array();
 	$pagelang = null;
@@ -315,9 +317,10 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
  * @return bool
  */
 function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
-	global $wgOut, $wgContLang;
+	global $wgOut;
 
 	$language_urls = array();
+	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 	foreach( $wgOut->getLanguageLinks() as $l ) {
 		if ( preg_match( '!^(\w[-\w]*\w):(.+)$!', $l, $m ) ) {
 			$lang = $m[1];
@@ -329,7 +332,7 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 		$nt = Title::newFromText( $l );
 		$language_urls[] = array(
 			'href' => $nt->getFullURL(),
-			'text' => Language::fetchLanguageName( $lang, $wgContLang->getCode() ),
+			'text' => Language::fetchLanguageName( $lang, $contentLanguage->getCode() ),
 			'class' => 'interwiki-' . $lang,
 		);
 	}
