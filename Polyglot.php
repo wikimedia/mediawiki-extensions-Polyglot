@@ -22,6 +22,8 @@ if( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
 }
 
+use MediaWiki\MediaWikiServices;
+
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'Polyglot',
@@ -105,15 +107,17 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 
 	$ns = $title->getNamespace();
 
+	$services = MediaWikiServices::getInstance();
+
 	if ( $ns < 0 || in_array( $ns, $wfPolyglotExemptNamespaces )
-		|| ( $wfPolyglotExcemptTalkPages && MWNamespace::isTalk( $ns ) ) ) {
+		|| ( $wfPolyglotExcemptTalkPages && $services->getNamespaceInfo()->isTalk( $ns ) ) ) {
 		return true;
 	}
 
 	$dbkey = $title->getDBkey();
 	$force = false;
 
-	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+	$contentLanguage = $services->getContentLanguage();
 	//TODO: when user-defined language links start working (see below),
 	//      we need to look at the langlinks table here.
 	if ( !$title->exists() && strlen( $dbkey ) > 1 ) {
@@ -172,14 +176,16 @@ function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query
 
 	$ns = $target->getNamespace();
 
+	$services = MediaWikiServices::getInstance();
+
 	if ( $ns < 0
 		|| in_array( $ns, $wfPolyglotExemptNamespaces )
-		|| ( $wfPolyglotExcemptTalkPages && MWNamespace::isTalk( $ns ) ) ) {
+		|| ( $wfPolyglotExcemptTalkPages && $services->getNamespaceInfo()->isTalk( $ns ) ) ) {
 		return true;
 	}
 
 	$dbKey = $target->getDBkey();
-	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+	$contentLanguage = $services->getContentLanguage();
 
 	if ( !$target->exists() && strlen( $dbKey ) > 1 ) {
 		$escContLang = preg_quote( $contentLanguage->getCode(),  '!' );
@@ -258,7 +264,8 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 
 	$n = $parser->getTitle()->getDBkey();
 	$ns = $parser->getTitle()->getNamespace();
-	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+	$services = MediaWikiServices::getInstance();
+	$contentLanguage = $services->getContentLanguage();
 	$contln = $contentLanguage->getCode();
 
 	$links = array();
@@ -268,7 +275,7 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	//      at least if wgPolyglotFollowRedirects is true
 
 	if ( $ns >= 0 && !in_array($ns,  $wfPolyglotExemptNamespaces)
-		&& (!$wfPolyglotExcemptTalkPages || !MWNamespace::isTalk($ns)) ) {
+		&& (!$wfPolyglotExcemptTalkPages || !$services->getNamespaceInfo()->isTalk($ns)) ) {
 		$ll = wfPolyglotGetLanguages($parser->getTitle());
 		if ($ll) $links = array_merge($links, $ll);
 
