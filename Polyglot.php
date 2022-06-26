@@ -143,7 +143,12 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 	}
 
 	if ( $wfPolyglotFollowRedirects && !$force ) {
-		$page = WikiPage::factory( $t );
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			// MW 1.36+
+			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $t );
+		} else {
+			$page = WikiPage::factory( $t );
+		}
 
 		if ( $page->isRedirect() ) {
 			$rt = $page->getRedirectTarget();
