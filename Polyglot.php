@@ -231,7 +231,12 @@ function wfPolyglotGetLanguages( $title ) {
 	$ns = $title->getNamespace();
 
 	$titles = array();
-	$batch = new LinkBatch();
+	if ( method_exists( MediaWikiServices::class, 'getLinkBatchFactory' ) ) {
+		// MW 1.35+
+		$batch = MediaWikiServices::getInstance()->getLinkBatchFactory()->newLinkBatch();
+	} else {
+		$batch = new LinkBatch();
+	}
 
 	foreach ( $wgPolyglotLanguages as $lang ) {
 		$obj = Title::makeTitle( $ns, $n . '/' . $lang );
