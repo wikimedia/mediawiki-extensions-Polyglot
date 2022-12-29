@@ -89,7 +89,12 @@ function wfPolyglotExtension() {
 	}
 
 	if ( $wgPolyglotLanguages === null ) {
-		$wgPolyglotLanguages = array_keys( Language::fetchLanguageNames() );
+		if ( method_exists( MediaWikiServices::class, 'getLanguageNameUtils' ) ) {
+			// MW 1.34+
+			$wgPolyglotLanguages = array_keys( MediaWikiServices::getInstance()->getLanguageNameUtils()->getLanguageNames() );
+		} else {
+			$wgPolyglotLanguages = array_keys( Language::fetchLanguageNames() );
+		}
 	}
 }
 
@@ -338,6 +343,12 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 
 	$language_urls = array();
 	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
+	if ( method_exists( MediaWikiServices::class, 'getLanguageNameUtils' ) ) {
+		// MW 1.34+
+		$languageNameUtils = MediaWikiServices::getInstance()->getLanguageNameUtils();
+	} else {
+		$languageNameUtils = null;
+	}
 	foreach( $wgOut->getLanguageLinks() as $l ) {
 		if ( preg_match( '!^(\w[-\w]*\w):(.+)$!', $l, $m ) ) {
 			$lang = $m[1];
@@ -347,9 +358,15 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 		}
 
 		$nt = Title::newFromText( $l );
+		if ( $languageNameUtils ) {
+			// MW 1.34+
+			$languageName = $languageNameUtils->getLanguageName( $lang, $contentLanguage->getCode() );
+		} else {
+			$languageName = Language::fetchLanguageName( $lang, $contentLanguage->getCode() );
+		}
 		$language_urls[] = array(
 			'href' => $nt->getFullURL(),
-			'text' => Language::fetchLanguageName( $lang, $contentLanguage->getCode() ),
+			'text' => $languageName,
 			'class' => 'interwiki-' . $lang,
 		);
 	}
