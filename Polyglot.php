@@ -14,10 +14,10 @@
  * @ingroup Extensions
  * @author Daniel Kinzler, brightbyte.de
  * @copyright © 2007 Daniel Kinzler
- * @licence GNU General Public Licence 2.0 or later
+ * @license GPL-2.0-or-later
  */
 
-if( !defined( 'MEDIAWIKI' ) ) {
+if ( !defined( 'MEDIAWIKI' ) ) {
 	echo( "This file is an extension to the MediaWiki software and cannot be used standalone.\n" );
 	die( 1 );
 }
@@ -25,14 +25,14 @@ if( !defined( 'MEDIAWIKI' ) ) {
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 
-$wgExtensionCredits['other'][] = array(
+$wgExtensionCredits['other'][] = [
 	'path' => __FILE__,
 	'name' => 'Polyglot',
 	'author' => 'Daniel Kinzler',
 	'url' => 'https://mediawiki.org/wiki/Extension:Polyglot',
 	'descriptionmsg' => 'polyglot-desc',
 	'license-name' => 'GPL-2.0-or-later',
-);
+];
 
 $wgMessagesDirs['Polyglot'] = __DIR__ . '/i18n';
 
@@ -52,14 +52,14 @@ $wgPolyglotLanguages = null;
  * All "magic" namespaces are excempt per default. There should be no reason to change this.
  * Note: internationalizing templates is best done on-page, using the MultiLang extension.
  */
-$wfPolyglotExemptNamespaces = array(
+$wfPolyglotExemptNamespaces = [
 	NS_CATEGORY,
 	NS_TEMPLATE,
 	NS_FILE,
 	NS_MEDIA,
 	NS_SPECIAL,
 	NS_MEDIAWIKI
-);
+];
 
 /**
  * Wether talk pages should be excempt from automatic polyglot support, with respect to
@@ -100,11 +100,11 @@ function wfPolyglotExtension() {
 }
 
 /**
- * @param $title Title
- * @param $request
- * @param $ignoreRedirect bool
- * @param $target
- * @param $article
+ * @param &$title Title
+ * @param &$request
+ * @param &$ignoreRedirect bool
+ * @param &$target
+ * @param &$article
  * @return bool
  */
 function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreRedirect, &$target, &$article ) {
@@ -124,10 +124,10 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 	$force = false;
 
 	$contentLanguage = $services->getContentLanguage();
-	//TODO: when user-defined language links start working (see below),
+	// TODO: when user-defined language links start working (see below),
 	//      we need to look at the langlinks table here.
 	if ( !$title->exists() && strlen( $dbkey ) > 1 ) {
-		$escContLang = preg_quote( $contentLanguage->getCode(),  '!' );
+		$escContLang = preg_quote( $contentLanguage->getCode(), '!' );
 		if ( preg_match( '!/$!', $dbkey ) ) {
 			$force = true;
 			$remove = 1;
@@ -159,7 +159,7 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 		if ( $page->isRedirect() ) {
 			$rt = $page->getRedirectTarget();
 			if ( $rt && $rt->exists() ) {
-				//TODO: make "redirected from" show $source, not $title, if we followed a redirect internally.
+				// TODO: make "redirected from" show $source, not $title, if we followed a redirect internally.
 				//     there seems to be no clean way to do that, though.
 				//$source = $t;
 				$t = $rt;
@@ -175,11 +175,11 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 /**
  * @param $linker
  * @param $target Title
- * @param $text
- * @param $customAttribs
- * @param $query
- * @param $options
- * @param $ret
+ * @param &$text
+ * @param &$customAttribs
+ * @param &$query
+ * @param &$options
+ * @param &$ret
  * @return bool
  */
 function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query, &$options, &$ret ) {
@@ -199,7 +199,7 @@ function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query
 	$contentLanguage = $services->getContentLanguage();
 
 	if ( !$target->exists() && strlen( $dbKey ) > 1 ) {
-		$escContLang = preg_quote( $contentLanguage->getCode(),  '!' );
+		$escContLang = preg_quote( $contentLanguage->getCode(), '!' );
 		if ( preg_match( '!/$!', $dbKey ) ) {
 			$remove = 1;
 		} elseif ( preg_match( "!/{$escContLang}$!", $dbKey ) ) {
@@ -214,7 +214,7 @@ function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query
 	$t = Title::makeTitle( $ns, substr( $dbKey, 0, strlen( $dbKey ) - $remove ) );
 
 	if ( $t->exists() ) {
-		foreach( $options as $key => $val ) {
+		foreach ( $options as $key => $val ) {
 			if ( $val === 'broken' ) {
 				unset( $options[$key] );
 			}
@@ -231,12 +231,14 @@ function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query
  */
 function wfPolyglotGetLanguages( $title ) {
 	global $wgPolyglotLanguages;
-	if (!$wgPolyglotLanguages) return null;
+	if ( !$wgPolyglotLanguages ) {
+		return null;
+	}
 
 	$n = $title->getDBkey();
 	$ns = $title->getNamespace();
 
-	$titles = array();
+	$titles = [];
 	if ( method_exists( MediaWikiServices::class, 'getLinkBatchFactory' ) ) {
 		// MW 1.35+
 		$batch = MediaWikiServices::getInstance()->getLinkBatchFactory()->newLinkBatch();
@@ -247,14 +249,14 @@ function wfPolyglotGetLanguages( $title ) {
 	foreach ( $wgPolyglotLanguages as $lang ) {
 		$obj = Title::makeTitle( $ns, $n . '/' . $lang );
 		$batch->addObj( $obj );
-		$titles[] = array( $obj, $lang );
+		$titles[] = [ $obj, $lang ];
 	}
 
 	$batch->execute();
-	$links = array();
+	$links = [];
 
-	foreach( $titles as $parts ) {
-		list( $t, $lang ) = $parts;
+	foreach ( $titles as $parts ) {
+		[ $t, $lang ] = $parts;
 		if ( $t->exists() ) {
 			$links[$lang] = $t->getFullText();
 		}
@@ -264,8 +266,8 @@ function wfPolyglotGetLanguages( $title ) {
 }
 
 /**
- * @param $parser Parser
- * @param $text
+ * @param &$parser Parser
+ * @param &$text
  * @return bool
  */
 function wfPolyglotParserAfterTidy( &$parser, &$text ) {
@@ -284,31 +286,35 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	$contentLanguage = $services->getContentLanguage();
 	$contln = $contentLanguage->getCode();
 
-	$links = array();
+	$links = [];
 	$pagelang = null;
 
-	//TODO: if we followed a redirect, analyze the redirect's title too.
+	// TODO: if we followed a redirect, analyze the redirect's title too.
 	//      at least if wgPolyglotFollowRedirects is true
 
-	if ( $ns >= 0 && !in_array($ns,  $wfPolyglotExemptNamespaces)
-		&& (!$wfPolyglotExcemptTalkPages || !$services->getNamespaceInfo()->isTalk($ns)) ) {
-		$ll = wfPolyglotGetLanguages($parser->getTitle());
-		if ($ll) $links = array_merge($links, $ll);
+	if ( $ns >= 0 && !in_array( $ns, $wfPolyglotExemptNamespaces )
+		&& ( !$wfPolyglotExcemptTalkPages || !$services->getNamespaceInfo()->isTalk( $ns ) ) ) {
+		$ll = wfPolyglotGetLanguages( $parser->getTitle() );
+		if ( $ll ) {
+			$links = array_merge( $links, $ll );
+		}
 
-		if (preg_match('!(.+)/(\w[-\w]*\w)$!', $n, $m)) {
+		if ( preg_match( '!(.+)/(\w[-\w]*\w)$!', $n, $m ) ) {
 			$pagelang = $m[2];
-			$t = Title::makeTitle($ns, $m[1]);
-			if (!isset($links[$contln]) && $t->exists()) $links[$contln] = $t->getFullText() . '/';
+			$t = Title::makeTitle( $ns, $m[1] );
+			if ( !isset( $links[$contln] ) && $t->exists() ) {
+				$links[$contln] = $t->getFullText() . '/';
+			}
 
-			$ll = wfPolyglotGetLanguages($t);
-			if ($ll) {
-				unset($ll[$pagelang]);
-				$links = array_merge($links, $ll);
+			$ll = wfPolyglotGetLanguages( $t );
+			if ( $ll ) {
+				unset( $ll[$pagelang] );
+				$links = array_merge( $links, $ll );
 			}
 		}
 	}
 
-	//TODO: would be nice to handle "normal" interwiki-links here.
+	// TODO: would be nice to handle "normal" interwiki-links here.
 	//      but we would have to hack into Title::getInterwikiLink, otherwise
 	//      the links are not recognized.
 	/*
@@ -322,7 +328,7 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	*/
 
 	if ( $pagelang ) {
-		unset($links[$pagelang]);
+		unset( $links[$pagelang] );
 	}
 
 	foreach ( $links as $lang => $t ) {
@@ -340,7 +346,7 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 	global $wgOut;
 
-	$language_urls = array();
+	$language_urls = [];
 	$contentLanguage = \MediaWiki\MediaWikiServices::getInstance()->getContentLanguage();
 	if ( method_exists( MediaWikiServices::class, 'getLanguageNameUtils' ) ) {
 		// MW 1.34+
@@ -348,12 +354,12 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 	} else {
 		$languageNameUtils = null;
 	}
-	foreach( $wgOut->getLanguageLinks() as $l ) {
+	foreach ( $wgOut->getLanguageLinks() as $l ) {
 		if ( preg_match( '!^(\w[-\w]*\w):(.+)$!', $l, $m ) ) {
 			$lang = $m[1];
 			$l = $m[2];
 		} else {
-			continue; //NOTE: shouldn't happen
+			continue; // NOTE: shouldn't happen
 		}
 
 		$nt = Title::newFromText( $l );
@@ -363,11 +369,11 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 		} else {
 			$languageName = Language::fetchLanguageName( $lang, $contentLanguage->getCode() );
 		}
-		$language_urls[] = array(
+		$language_urls[] = [
 			'href' => $nt->getFullURL(),
 			'text' => $languageName,
 			'class' => 'interwiki-' . $lang,
-		);
+		];
 	}
 
 	$tpl->set( 'language_urls', $language_urls ?: false );
