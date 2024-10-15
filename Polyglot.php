@@ -76,6 +76,7 @@ $wfPolyglotFollowRedirects = false;
 
 ///// hook it up /////////////////////////////////////////////////////
 $wgHooks['InitializeArticleMaybeRedirect'][] = 'wfPolyglotInitializeArticleMaybeRedirect';
+// FIXME: This hook is gone since MediaWiki 1.36
 $wgHooks['LinkBegin'][] = 'wfPolyglotLinkBegin';
 $wgHooks['ParserAfterTidy'][] = 'wfPolyglotParserAfterTidy';
 $wgHooks['SkinTemplateOutputPageBeforeExec'][] = 'wfPolyglotSkinTemplateOutputPageBeforeExec';
@@ -92,7 +93,8 @@ function wfPolyglotExtension() {
 	if ( $wgPolyglotLanguages === null ) {
 		if ( method_exists( MediaWikiServices::class, 'getLanguageNameUtils' ) ) {
 			// MW 1.34+
-			$wgPolyglotLanguages = array_keys( MediaWikiServices::getInstance()->getLanguageNameUtils()->getLanguageNames() );
+			$languageNameUtils = MediaWikiServices::getInstance()->getLanguageNameUtils();
+			$wgPolyglotLanguages = array_keys( $languageNameUtils->getLanguageNames() );
 		} else {
 			$wgPolyglotLanguages = array_keys( Language::fetchLanguageNames() );
 		}
@@ -100,12 +102,12 @@ function wfPolyglotExtension() {
 }
 
 /**
- * @param &$title Title
- * @param &$request
- * @param &$ignoreRedirect bool
- * @param &$target
- * @param &$article
- * @return bool
+ * @param Title &$title
+ * @param WebRequest &$request
+ * @param bool &$ignoreRedirect
+ * @param Title|string &$target
+ * @param Article &$article
+ * @return true
  */
 function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreRedirect, &$target, &$article ) {
 	global $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages, $wfPolyglotFollowRedirects;
@@ -173,14 +175,14 @@ function wfPolyglotInitializeArticleMaybeRedirect( &$title, &$request, &$ignoreR
 }
 
 /**
- * @param $linker
- * @param $target Title
- * @param &$text
- * @param &$customAttribs
- * @param &$query
- * @param &$options
- * @param &$ret
- * @return bool
+ * @param null $linker
+ * @param Title $target
+ * @param string|null &$text
+ * @param string[] &$customAttribs
+ * @param string[] &$query
+ * @param string[] &$options
+ * @param string &$ret
+ * @return true
  */
 function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query, &$options, &$ret ) {
 	global $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages;
@@ -226,7 +228,7 @@ function wfPolyglotLinkBegin( $linker, $target, &$text, &$customAttribs, &$query
 }
 
 /**
- * @param $title Title
+ * @param Title $title
  * @return array|null
  */
 function wfPolyglotGetLanguages( $title ) {
@@ -266,9 +268,9 @@ function wfPolyglotGetLanguages( $title ) {
 }
 
 /**
- * @param &$parser Parser
- * @param &$text
- * @return bool
+ * @param Parser &$parser
+ * @param string &$text
+ * @return true
  */
 function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 	global $wgPolyglotLanguages, $wfPolyglotExemptNamespaces, $wfPolyglotExcemptTalkPages;
@@ -339,9 +341,9 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 }
 
 /**
- * @param $skin
- * @param $tpl QuickTemplate
- * @return bool
+ * @param SkinTemplate $skin
+ * @param QuickTemplate $tpl
+ * @return true
  */
 function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 	global $wgOut;
@@ -359,7 +361,7 @@ function wfPolyglotSkinTemplateOutputPageBeforeExec( $skin, $tpl ) {
 			$lang = $m[1];
 			$l = $m[2];
 		} else {
-			continue; // NOTE: shouldn't happen
+			continue;
 		}
 
 		$nt = Title::newFromText( $l );
