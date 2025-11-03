@@ -23,6 +23,7 @@ if( !defined( 'MEDIAWIKI' ) ) {
 }
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
