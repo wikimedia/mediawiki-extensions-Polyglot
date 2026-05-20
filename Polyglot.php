@@ -325,12 +325,10 @@ function wfPolyglotParserAfterTidy( &$parser, &$text ) {
 		unset($links[$pagelang]);
 	}
 
-	$fakelinks = array();
 	foreach ( $links as $lang => $t ) {
-		$fakelinks[] = $lang . ':' . $t;
+		$parser->getOutput()->addLanguageLink( $lang . ':' . $t );
 	}
 
-	$parser->getOutput()->setLanguageLinks($fakelinks);
 	return true;
 }
 
